@@ -1,6 +1,5 @@
 import requests
 import datetime as dt
-import time
 
 
 # https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats&response_type=token&v=5.131
@@ -17,6 +16,11 @@ def date_to_unix(date_timestamp):
     return unix_timestamp
 
 
+timestamp_from = '2023-03-01'
+timestamp_to = '2023-04-01'
+unix_timestamp_from = date_to_unix(timestamp_from)
+unix_timestamp_to = date_to_unix(timestamp_to)
+
 app_id = '51621899'
 with open('access_token.txt', 'r') as file:
     access_token = file.read().strip()
@@ -26,10 +30,20 @@ url = 'https://api.vk.com/method/stats.get'
 params = {
     'group_id': 69145727,  # Green
     'access_token': access_token,
-    'timestamp_from': 1680307200,
-    'interval': 'week',
+    'timestamp_from': unix_timestamp_from,
+    'timestamp_to': unix_timestamp_to,
+    'interval': 'day',
     'v': '5.131'
 }
 
-# response = requests.get(url, params=params)
-# print(response.json())
+response = requests.get(url, params=params).json()
+days = len(response['response'])
+print(f'days: {days}')
+
+for i in range(days):
+    try:
+        subscribed = response['response'][i]['activity']['subscribed']
+        print(f'day: {i}, people subscribed: {subscribed}')
+    except Exception:
+        unsubscribed = response['response'][i]['activity']['unsubscribed']
+        print(f'day: {i}, people unsubscribed: {unsubscribed}')
