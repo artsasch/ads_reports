@@ -1,5 +1,6 @@
 import requests
 import datetime as dt
+import json
 
 
 # https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats&response_type=token&v=5.131
@@ -36,7 +37,13 @@ params = {
     'v': '5.131'
 }
 
-response = requests.get(url, params=params).json()
+# response = requests.get(url, params=params).json()
+# print(response)
+
+
+with open('response.json', 'r', encoding='utf-8') as f:
+    response = json.load(f)
+
 days = len(response['response'])
 print(f'days: {days}')
 
