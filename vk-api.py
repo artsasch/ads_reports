@@ -44,13 +44,26 @@ params = {
 with open('response.json', 'r', encoding='utf-8') as f:
     response = json.load(f)
 
-days = len(response['response'])
-print(f'days: {days}')
+for item in response['response']:
+    print(item['activity'])
+    print(f"period_from: {unix_to_date(item['period_from'])}")
+    print(f"period_to: {unix_to_date(item['period_to'])}")
+    print(f"reach/mobile_reach: {item['reach']['mobile_reach']}")
+    print(f"reach/reach: {item['reach']['reach']}")
+    print(f"reach/reach_subscribers: {item['reach']['reach_subscribers']}")
+    print(f"visitors/mobile_views: {item['visitors']['mobile_views']}")
+    print(f"visitors/views: {item['visitors']['views']}")
+    print(f"visitors/visitors: {item['visitors']['visitors']}")
+    break
 
-for i in range(days):
-    try:
-        subscribed = response['response'][i]['activity']['subscribed']
-        print(f'day: {i}, people subscribed: {subscribed}')
-    except Exception:
-        unsubscribed = response['response'][i]['activity']['unsubscribed']
-        print(f'day: {i}, people unsubscribed: {unsubscribed}')
+
+# days = len(response['response'])
+# print(f'days: {days}')
+#
+# for i in range(days):
+#     try:
+#         subscribed = response['response'][i]['activity']['subscribed']
+#         print(f'day: {i}, people subscribed: {subscribed}')
+#     except Exception:
+#         unsubscribed = response['response'][i]['activity']['unsubscribed']
+#         print(f'day: {i}, people unsubscribed: {unsubscribed}')
