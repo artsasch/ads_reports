@@ -18,10 +18,18 @@ def date_to_unix(date_timestamp):
     return unix_timestamp
 
 
-timestamp_from = '2023-03-01'
-timestamp_to = '2023-04-01'
+current_date = dt.date.today()
+first_day_of_last_month = dt.date(current_date.year, current_date.month-1, 1)
+print(f"Current date: {current_date:%Y-%m-%d}")
+print(f"First day of the month before last: {first_day_of_last_month:%Y-%m-%d}")
+
+timestamp_from = f"{first_day_of_last_month:%Y-%m-%d}"
+timestamp_to = f"{current_date:%Y-%m-%d}"
 unix_timestamp_from = date_to_unix(timestamp_from)
 unix_timestamp_to = date_to_unix(timestamp_to)
+print(f"timestamp_from: {timestamp_from}")
+print(f"timestamp_to: {timestamp_to}")
+
 
 app_id = '51621899'
 with open('access_token.txt', 'r') as file:
@@ -52,18 +60,18 @@ else:
 
 days = len(response['response'])
 
-for i in range(3):
-    item = response['response'][i]
-    print(item['activity'])
-    print(f"period_from: {unix_to_date(item['period_from'])}")
-    print(f"period_to: {unix_to_date(item['period_to'])}")
-    print(f"reach/mobile_reach: {item['reach']['mobile_reach']}")
-    print(f"reach/reach: {item['reach']['reach']}")
-    print(f"reach/reach_subscribers: {item['reach']['reach_subscribers']}")
-    print(f"visitors/mobile_views: {item['visitors']['mobile_views']}")
-    print(f"visitors/views: {item['visitors']['views']}")
-    print(f"visitors/visitors: {item['visitors']['visitors']}")
-    print('////////////////////////////////////////////////////////////////')
+# for i in range(3):
+#     item = response['response'][i]
+#     print(item['activity'])
+#     print(f"period_from: {unix_to_date(item['period_from'])}")
+#     print(f"period_to: {unix_to_date(item['period_to'])}")
+#     print(f"reach/mobile_reach: {item['reach']['mobile_reach']}")
+#     print(f"reach/reach: {item['reach']['reach']}")
+#     print(f"reach/reach_subscribers: {item['reach']['reach_subscribers']}")
+#     print(f"visitors/mobile_views: {item['visitors']['mobile_views']}")
+#     print(f"visitors/views: {item['visitors']['views']}")
+#     print(f"visitors/visitors: {item['visitors']['visitors']}")
+#     print('////////////////////////////////////////////////////////////////')
 
 
 # for i in range(days):
