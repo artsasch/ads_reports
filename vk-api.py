@@ -1,6 +1,7 @@
 import requests
 import datetime as dt
 import json
+import os.path
 
 
 # https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats&response_type=token&v=5.131
@@ -37,12 +38,17 @@ params = {
     'v': '5.131'
 }
 
-# response = requests.get(url, params=params).json()
-# print(response)
 
+if os.path.isfile('response.json'):
+    with open('response.json', 'r') as infile:
+        response = json.load(infile)
+        print("Loaded data from response.json file")
+else:
+    response = requests.get(url, params=params).json()
+    with open('response.json', 'w') as outfile:
+        json.dump(response, outfile)
+        print("Saved response to response.json file")
 
-with open('response.json', 'r', encoding='utf-8') as f:
-    response = json.load(f)
 
 for item in response['response']:
     print(item['activity'])
