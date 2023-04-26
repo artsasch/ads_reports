@@ -76,28 +76,7 @@ df = df.drop(['reach.age',
 
 
 df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')
-df[['period_from', 'period_to']] = df[['period_from', 'period_to']].apply(lambda x: x.dt.strftime('%m/%d/%Y'))
+df[['period_from', 'period_to']] = df[['period_from', 'period_to']].apply(lambda x: x.dt.date)
 
 
 df.to_csv('response.csv', index=False)
-
-# days = len(response['response'])
-# for i in range(3):
-#     item = response['response'][i]
-#     print(item['activity'])
-#     print(f"period_from: {unix_to_date(item['period_from'])}")
-#     print(f"period_to: {unix_to_date(item['period_to'])}")
-#     print(f"reach/mobile_reach: {item['reach']['mobile_reach']}")
-#     print(f"reach/reach: {item['reach']['reach']}")
-#     print(f"reach/reach_subscribers: {item['reach']['reach_subscribers']}")
-#     print(f"visitors/mobile_views: {item['visitors']['mobile_views']}")
-#     print(f"visitors/views: {item['visitors']['views']}")
-#     print(f"visitors/visitors: {item['visitors']['visitors']}")
-#     print('////////////////////////////////////////////////////////////////')
-# for i in range(days):
-#     try:
-#         subscribed = response['response'][i]['activity']['subscribed']
-#         print(f'day: {i}, people subscribed: {subscribed}')
-#     except Exception:
-#         unsubscribed = response['response'][i]['activity']['unsubscribed']
-#         print(f'day: {i}, people unsubscribed: {unsubscribed}')
