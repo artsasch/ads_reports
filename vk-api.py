@@ -1,5 +1,6 @@
 import requests
 import datetime as dt
+import pandas as pd
 import json
 import os.path
 
@@ -20,13 +21,13 @@ def date_to_unix(date_timestamp):
 
 current_date = dt.date.today()
 first_day_of_last_month = dt.date(current_date.year, current_date.month-1, 1)
-print(f"Current date: {current_date:%Y-%m-%d}")
-print(f"First day of the month before last: {first_day_of_last_month:%Y-%m-%d}")
 
 timestamp_from = f"{first_day_of_last_month:%Y-%m-%d}"
 timestamp_to = f"{current_date:%Y-%m-%d}"
+
 unix_timestamp_from = date_to_unix(timestamp_from)
 unix_timestamp_to = date_to_unix(timestamp_to)
+
 print(f"timestamp_from: {timestamp_from}")
 print(f"timestamp_to: {timestamp_to}")
 
@@ -58,8 +59,29 @@ else:
         print("Saved response to response.json file")
 
 
-days = len(response['response'])
+df = pd.json_normalize(response['response'])
 
+df = df.drop(['reach.age',
+              'reach.cities',
+              'reach.countries',
+              'reach.sex',
+              'reach.sex_age',
+              'visitors.age',
+              'visitors.cities',
+              'visitors.countries',
+              'visitors.mobile_views',
+              'visitors.sex',
+              'visitors.sex_age'
+              ], axis=1)
+
+
+df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')
+df[['period_from', 'period_to']] = df[['period_from', 'period_to']].apply(lambda x: x.dt.strftime('%m/%d/%Y'))
+
+
+df.to_csv('response.csv', index=False)
+
+# days = len(response['response'])
 # for i in range(3):
 #     item = response['response'][i]
 #     print(item['activity'])
@@ -72,8 +94,6 @@ days = len(response['response'])
 #     print(f"visitors/views: {item['visitors']['views']}")
 #     print(f"visitors/visitors: {item['visitors']['visitors']}")
 #     print('////////////////////////////////////////////////////////////////')
-
-
 # for i in range(days):
 #     try:
 #         subscribed = response['response'][i]['activity']['subscribed']
