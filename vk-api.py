@@ -50,7 +50,10 @@ else:
         print("Saved response to response.json file")
 
 
-for item in response['response']:
+days = len(response['response'])
+
+for i in range(3):
+    item = response['response'][i]
     print(item['activity'])
     print(f"period_from: {unix_to_date(item['period_from'])}")
     print(f"period_to: {unix_to_date(item['period_to'])}")
@@ -60,12 +63,9 @@ for item in response['response']:
     print(f"visitors/mobile_views: {item['visitors']['mobile_views']}")
     print(f"visitors/views: {item['visitors']['views']}")
     print(f"visitors/visitors: {item['visitors']['visitors']}")
-    break
+    print('////////////////////////////////////////////////////////////////')
 
 
-# days = len(response['response'])
-# print(f'days: {days}')
-#
 # for i in range(days):
 #     try:
 #         subscribed = response['response'][i]['activity']['subscribed']
