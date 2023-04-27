@@ -21,15 +21,15 @@ params = {
 # response = requests.get(url, params=params).json()
 # print(response)
 
-url2 = 'https://api.vk.com/method/ads.getAccounts'
+ads_url = 'https://api.vk.com/method/ads.getAccounts'
 
-params2 = {
+ads_params = {
     'access_token': access_token,
     'v': '5.131'
 }
 
 
-response2 = requests.get(url2, params=params2).json()
-print(response2)
+ads_response = requests.get(ads_url, params=ads_params).json()
+print(ads_response)
 # df = pd.json_normalize(response['response'])
 # df.to_csv('vk_ads.csv', index=False)
