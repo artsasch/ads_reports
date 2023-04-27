@@ -1,8 +1,9 @@
-import requests
 import datetime as dt
 import pandas as pd
-import json
+import sqlalchemy
+import requests
 import os.path
+import json
 from utils import date_to_unix, unix_to_date, request
 
 
@@ -12,7 +13,7 @@ from utils import date_to_unix, unix_to_date, request
 
 
 current_date = dt.date.today()
-first_day_of_last_month = dt.date(current_date.year, current_date.month-1, 1)
+first_day_of_last_month = dt.date(current_date.year, current_date.month - 1, 1)
 
 timestamp_from = f"{first_day_of_last_month:%Y-%m-%d}"
 timestamp_to = f"{current_date:%Y-%m-%d}"
@@ -59,5 +60,15 @@ df = df.drop(['reach.age',
 df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')
 df[['period_from', 'period_to']] = df[['period_from', 'period_to']].apply(lambda x: x.dt.date)
 
+snake_case_columns_names = {col: col.replace('.', '_') for col in df.columns}
+df.rename(columns=snake_case_columns_names, inplace=True)
+
+df.fillna(0, inplace=True)
+
+# engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/vk_statistics")
+# with engine.begin() as connection:
+#     connection.execute('''TRUNCATE TABLE ''' + '''stats''')
+#     df.to_sql('stats', con=connection, if_exists='append', index=bool)
+# engine.dispose()
 
 df.to_csv('response.csv', index=False)
