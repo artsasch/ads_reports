@@ -28,3 +28,17 @@ def request(url, params):
         json.dump(response, outfile)
         print("Saved response to response.json file")
         return response
+
+
+def ads_request(url, params):
+    if os.path.isfile('ads_response.json'):
+        with open('ads_response.json', 'r') as infile:
+            ads_response = json.load(infile)
+            print("Loaded data from ads_response.json file")
+            return ads_response
+    else:
+        ads_response = requests.get(url, params=params).json()
+    with open('ads_response.json', 'w') as outfile:
+        json.dump(ads_response, outfile)
+        print("Saved response to ads_response.json file")
+        return ads_response
