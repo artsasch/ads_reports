@@ -56,4 +56,16 @@ columns_to_drop = [
 
 df.drop(columns=columns_to_drop, inplace=True)
 df.fillna(0, inplace=True)
+
+df['day'] = pd.to_datetime(df['day'])
+float_cols = ['spent', 'impressions', 'clicks', 'ctr', 'effective_cost_per_click', 'effective_cost_per_mille']
+df[float_cols] = df[float_cols].astype(float)
+
 df.to_csv('ads_response.csv', index=False)
+
+
+# engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/vk_statistics")
+# with engine.begin() as connection:
+#     connection.execute('''TRUNCATE TABLE ''' + '''ads''')
+#     df.to_sql('ads', con=connection, if_exists='append', index=bool)
+# engine.dispose()

@@ -63,11 +63,11 @@ snake_case_columns_names = {col: col.replace('.', '_') for col in df.columns}
 df.rename(columns=snake_case_columns_names, inplace=True)
 
 df.fillna(0, inplace=True)
+df.to_csv('response.csv', index=False)
+
 
 # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/vk_statistics")
 # with engine.begin() as connection:
 #     connection.execute('''TRUNCATE TABLE ''' + '''stats''')
 #     df.to_sql('stats', con=connection, if_exists='append', index=bool)
 # engine.dispose()
-
-df.to_csv('response.csv', index=False)
