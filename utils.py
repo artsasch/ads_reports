@@ -16,29 +16,15 @@ def date_to_unix(date_timestamp):
     return unix_timestamp
 
 
-def request(url, params):
-    if os.path.isfile('response.json'):
-        with open('response.json', 'r') as infile:
+def request(url, params, response_file):
+    if os.path.isfile(response_file):
+        with open(response_file, 'r') as infile:
             response = json.load(infile)
-            print("Loaded data from response.json file")
+            print(f"Loaded data from {response_file} file")
             return response
     else:
         response = requests.get(url, params=params).json()
-    with open('response.json', 'w') as outfile:
+    with open(response_file, 'w') as outfile:
         json.dump(response, outfile)
-        print("Saved response to response.json file")
+        print(f"Saved response to {response_file} file")
         return response
-
-
-def ads_request(url, params):
-    if os.path.isfile('ads_response.json'):
-        with open('ads_response.json', 'r') as infile:
-            ads_response = json.load(infile)
-            print("Loaded data from ads_response.json file")
-            return ads_response
-    else:
-        ads_response = requests.get(url, params=params).json()
-    with open('ads_response.json', 'w') as outfile:
-        json.dump(ads_response, outfile)
-        print("Saved response to ads_response.json file")
-        return ads_response

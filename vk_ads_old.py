@@ -1,7 +1,5 @@
-import datetime as dt
 import pandas as pd
-import requests
-from utils import ads_request
+from utils import request
 
 
 client_id = 1606473292  # ZOV
@@ -30,8 +28,11 @@ ads_params = {
     'v': '5.131'
 }
 
-ads_response = ads_request(ads_url, ads_params)
+ads_response_file = 'ads_response.json'
+
+ads_response = request(ads_url, ads_params, ads_response_file)
 df = pd.json_normalize(ads_response['response'][0]['stats'])
+
 columns_to_drop = [
     "mobile_app_install_amount_by_interaction_time_postview",
     "mobile_app_install_amount_by_interaction_time_postclick",
@@ -52,5 +53,7 @@ columns_to_drop = [
     "mobile_app_install_ecpa_by_postback_time_postclick",
     "mobile_app_install_ecpa_by_postback_time_total"
 ]
+
 df.drop(columns=columns_to_drop, inplace=True)
+df.fillna(0, inplace=True)
 df.to_csv('ads_response.csv', index=False)

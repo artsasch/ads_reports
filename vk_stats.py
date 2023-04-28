@@ -1,9 +1,6 @@
 import datetime as dt
 import pandas as pd
 import sqlalchemy
-import requests
-import os.path
-import json
 from utils import date_to_unix, unix_to_date, request
 
 
@@ -40,8 +37,10 @@ params = {
     'v': '5.131'
 }
 
+response_file = 'response.json'
 
-response = request(url, params)
+
+response = request(url, params, response_file)
 df = pd.json_normalize(response['response'])
 df = df.drop(['reach.age',
               'reach.cities',
