@@ -2,7 +2,9 @@ import requests
 
 
 client_id = 51621899
-client_secret = 'WBYfJpyRcOfrsuodGXAD'
+with open('utils/client_secret.txt', 'r') as file:
+    client_secret = file.read().strip()
+print(client_secret)
 agency_client_id = 15646713
 
 url = 'https://ads.vk.com/api/v2/oauth2/token.json'

@@ -23,7 +23,7 @@ print(f"timestamp_to: {timestamp_to}")
 
 
 group_id = 89958692  # ZOV
-with open('access_token.txt', 'r') as file:
+with open('utils/access_token.txt', 'r') as file:
     access_token = file.read().strip()
 
 url = 'https://api.vk.com/method/stats.get'
@@ -37,10 +37,11 @@ params = {
     'v': '5.131'
 }
 
-response_file = 'response.json'
+response_json_file = '.json/response.json'
+response_csv_file = '.csv/response.csv'
 
 
-response = request(url, params, response_file)
+response = request(url, params, response_json_file)
 df = pd.json_normalize(response['response'])
 df = df.drop(['reach.age',
               'reach.cities',
@@ -63,7 +64,7 @@ snake_case_columns_names = {col: col.replace('.', '_') for col in df.columns}
 df.rename(columns=snake_case_columns_names, inplace=True)
 
 df.fillna(0, inplace=True)
-df.to_csv('response.csv', index=False)
+df.to_csv(response_csv_file, index=False)
 
 
 # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/vk_statistics")

@@ -11,7 +11,7 @@ date_from = '2023-03-01'
 date_to = '0'
 
 
-with open('access_token.txt', 'r') as file:
+with open('utils/access_token.txt', 'r') as file:
     access_token = file.read().strip()
 
 ads_url = 'https://api.vk.com/method/ads.getStatistics'
@@ -28,9 +28,10 @@ ads_params = {
     'v': '5.131'
 }
 
-ads_response_file = 'ads_response.json'
+ads_response_json_file = '.json/ads_response.json'
+ads_response_csv_file = '.csv/ads_response.csv'
 
-ads_response = request(ads_url, ads_params, ads_response_file)
+ads_response = request(ads_url, ads_params, ads_response_json_file)
 df = pd.json_normalize(ads_response['response'][0]['stats'])
 
 columns_to_drop = [
@@ -61,7 +62,7 @@ df['day'] = pd.to_datetime(df['day'])
 float_cols = ['spent', 'impressions', 'clicks', 'ctr', 'effective_cost_per_click', 'effective_cost_per_mille']
 df[float_cols] = df[float_cols].astype(float)
 
-df.to_csv('ads_response.csv', index=False)
+df.to_csv(ads_response_csv_file, index=False)
 
 
 # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/vk_statistics")
