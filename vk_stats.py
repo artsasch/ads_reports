@@ -1,7 +1,7 @@
 import datetime as dt
 import pandas as pd
 import sqlalchemy
-from utils import date_to_unix, unix_to_date, request
+from utils.utils import date_to_unix, unix_to_date, request
 
 
 # https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats,ads&response_type=code&v=5.131

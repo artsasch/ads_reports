@@ -1,5 +1,5 @@
 import pandas as pd
-from utils import request
+from utils.utils import request
 
 
 client_id = 1606473292  # ZOV
