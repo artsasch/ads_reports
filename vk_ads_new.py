@@ -1,26 +1,29 @@
 import requests
+import json
 
 
-client_id = 51621899
-with open('utils/client_secret.txt', 'r') as file:
-    client_secret = file.read().strip()
-print(client_secret)
-agency_client_id = 15646713
+agency_client_id = 15646746
+ADV_GREEN = "2d85906b52"
 
-url = 'https://ads.vk.com/api/v2/oauth2/token.json'
+with open('utils/vk_ads_new_access_token.txt', 'r') as file:
+    access_token = file.read().strip()
 
-payload = {
-    'grant_type': 'client_credentials',
-    'client_id': client_id,
-    'client_secret': client_secret,
-    'agency_client_id': agency_client_id,
-    'permanent': 'true'
+url = 'https://ads.vk.com/api/v2/statistics/users/day.json'
+ad_group_id = 15646746
+date_from = '2023-01-01'
+date_to = '2023-05-13'
+
+params = {
+    'id': ad_group_id,
+    'date_from': date_from,
+    'date_to': date_to,
 }
 
 headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Authorization': f'Bearer {access_token}'
 }
 
-response = requests.post(url, data=payload, headers=headers)
-
-print(response.json())
+response = requests.get(url, params=params, headers=headers)
+data = response.json()
+with open('base_data.json', 'w') as f:
+    json.dump(data, f)
