@@ -7,7 +7,7 @@ with open('.json/adv_tokens.json') as json_file:
     data = json.load(json_file)
 access_token = data['adv_zov_vk']['access_token']
 
-url = 'https://ads.vk.com/api/v2/ad_plans.json'
+url = 'https://ads.vk.com/api/v2/ad_groups.json'
 
 params = {
     'id': agency_client_id,
