@@ -1,14 +1,17 @@
 import requests
+import json
 
+agency_client_id = 15646746  # adv_green_vk
 
-with open('utils/vk_ads_new_access_token.txt', 'r') as file:
-    access_token = file.read().strip()
+with open('.json/adv_tokens.json') as json_file:
+    data = json.load(json_file)
+access_token = data[4]['adv_green_vk']['access_token']
+
 
 url = 'https://ads.vk.com/api/v2/ad_plans.json'
-ad_group_id = 15646746
 
 params = {
-    'id': ad_group_id,
+    'id': agency_client_id,
     'metrics': 'all'
 }
 
