@@ -14,6 +14,7 @@ date_to = datetime.now().strftime('%Y-%m-%d')
 params = {
     'date_from': date_from,
     'date_to': date_to,
+    'metrics': 'all'
 }
 
 headers = {
@@ -22,5 +23,5 @@ headers = {
 
 response = requests.get(url, params=params, headers=headers)
 data = response.json()
-with open('assets/base_statistics.json', 'w') as f:
+with open('assets/base_statistics_mytarget.json', 'w') as f:
     json.dump(data, f, indent=3)
