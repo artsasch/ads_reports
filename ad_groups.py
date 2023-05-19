@@ -3,7 +3,7 @@ import json
 
 agency_client_id = 15646713  # adv_zov_vk
 
-with open('.json/adv_tokens.json') as json_file:
+with open('resources/adv_tokens.json') as json_file:
     data = json.load(json_file)
 access_token = data['adv_zov_vk']['access_token']
 
