@@ -31,7 +31,7 @@ with open('../resources/mysql_engine.txt', 'r') as file:
     mysql_engine = file.read().strip()
 
 url = 'https://ads.vk.com/api/v2/statistics/users/day.json'
-date_from = '2023-03-19'
+date_from = '2023-04-01'
 date_to = datetime.now().strftime('%Y-%m-%d')
 
 params = {
@@ -68,7 +68,7 @@ for account in accounts:
     if not inspector.has_table(table_name):
         df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
 
-    df.to_sql(table_name, engine, if_exists='append', index=False)
+    df.to_sql(table_name, engine, if_exists='replace', index=False)
 
     print(f"Data from {account} loaded.")
 

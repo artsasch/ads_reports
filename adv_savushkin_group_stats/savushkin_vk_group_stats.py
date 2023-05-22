@@ -22,8 +22,8 @@ print(f"timestamp_from: {timestamp_from}")
 print(f"timestamp_to: {timestamp_to}")
 
 
-group_id = 89958692  # ZOV
-with open('utils/access_token.txt', 'r') as file:
+group_id = 40674131
+with open('../resources/access_token.txt', 'r') as file:
     access_token = file.read().strip()
 
 url = 'https://api.vk.com/method/stats.get'
@@ -37,8 +37,8 @@ params = {
     'v': '5.131'
 }
 
-response_json_file = '.json/response.json'
-response_csv_file = '.csv/response.csv'
+response_json_file = 'assets/savushkin_vk_group_stats.json'
+response_csv_file = 'assets/savushkin_vk_group_stats.csv'
 
 
 response = request(url, params, response_json_file)
@@ -60,8 +60,7 @@ df = df.drop(['reach.age',
 df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')
 df[['period_from', 'period_to']] = df[['period_from', 'period_to']].apply(lambda x: x.dt.date)
 
-snake_case_columns_names = {col: col.replace('.', '_') for col in df.columns}
-df.rename(columns=snake_case_columns_names, inplace=True)
+df = df.rename(columns=lambda x: x.replace('.', '_'))
 
 df.fillna(0, inplace=True)
 df.to_csv(response_csv_file, index=False)
