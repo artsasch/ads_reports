@@ -12,14 +12,14 @@ from utils.utils import date_to_unix, unix_to_date, request
 current_date = dt.date.today()
 first_day_of_last_month = dt.date(current_date.year, current_date.month - 1, 1)
 
-timestamp_from = f"{first_day_of_last_month:%Y-%m-%d}"
 timestamp_to = f"{current_date:%Y-%m-%d}"
+timestamp_from = f"{first_day_of_last_month:%Y-%m-%d}"
 
-unix_timestamp_from = date_to_unix(timestamp_from)
 unix_timestamp_to = date_to_unix(timestamp_to)
+unix_timestamp_from = date_to_unix(timestamp_from)
 
-print(f"timestamp_from: {timestamp_from}")
 print(f"timestamp_to: {timestamp_to}")
+print(f"timestamp_from: {timestamp_from}")
 
 
 group_id = 40674131
