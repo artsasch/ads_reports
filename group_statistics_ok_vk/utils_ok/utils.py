@@ -24,6 +24,12 @@ def md5_get_info(method, url):
     return sig
 
 
+def md5_get_user_groups_v2(method):
+    string = f"application_key={application_key}count=30format={request_format}method={method}{session_secret_key}"
+    sig = hashlib.md5(string.encode("utf")).hexdigest()
+    return sig
+
+
 def md5_get_stat_trends(method, start_time, end_time, fields, gid):
     fields = fields.replace("\n", "").replace(" ", "")
     string = f"application_key={application_key}\
