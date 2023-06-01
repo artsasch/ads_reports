@@ -22,7 +22,6 @@ response = requests.get('https://api.vk.com/method/groups.get',
 groups = {}
 for item in response['response']['items']:
     groups[item['screen_name']] = item['id']
-print(groups)
 
 
 current_date = dt.date.today()
@@ -45,6 +44,8 @@ for group_name, group_id in groups.items():
         'interval': 'day',
         'v': '5.131'
     }
+
+    group_name = f"group_{group_name}_stats_vk"
 
     response_json_file = f'assets/{group_name}.json'
     response_csv_file = f'assets/{group_name}.csv'
@@ -81,7 +82,8 @@ for group_name, group_id in groups.items():
 
     # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
     # inspector = sqlalchemy.inspect(engine)
-    # table_name = group_name
+    table_name = group_name
+    print(table_name)
     #
     # if not inspector.has_table(table_name):
     #     df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
