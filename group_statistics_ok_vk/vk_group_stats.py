@@ -1,8 +1,8 @@
+from utils.utils import date_to_unix, unix_to_date, request
 import datetime as dt
 import pandas as pd
-import requests
 import sqlalchemy
-from utils.utils import date_to_unix, unix_to_date, request
+import requests
 
 
 with open('../resources/access_token.txt', 'r') as file:
@@ -68,8 +68,8 @@ for group_name, group_id in groups.items():
     except KeyError as error:
         print(error, group_name, group_id)
         continue
-    except:
-        print(f"error in group{group_name}")
+    except Exception as e:
+        print(f"error {e} in group {group_name}")
         continue
 
     df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')

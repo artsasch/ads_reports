@@ -1,8 +1,10 @@
+from utils_ok.utils import *
+import pandas as pd
+import sqlalchemy
+import datetime
 import requests
 import json
-import datetime
-import pandas as pd
-from utils_ok.utils import *
+
 
 names = {'52958698209532': 'groupsavushkin',
          '55550518952020': 'greenmarketby',
@@ -23,24 +25,6 @@ names = {'52958698209532': 'groupsavushkin',
          '52108094341283': 'brestmeat'}
 
 for uid, shortname in names.items():
-
-    # url = f"https://ok.ru/{shortname}"
-    # method = "url.getInfo"
-    # getInfo_sig = md5_get_info(method, url)
-    #
-    # params = {
-    #     "application_key": application_key,
-    #     "format": request_format,
-    #     "method": method,
-    #     "url": url,
-    #     "sig": getInfo_sig,
-    #     "access_token": access_token,
-    # }
-    #
-    # response = requests.get(api_url, params=params)
-    # data = json.loads(response.text)
-    # gid = data['objectId']
-    # print(f"gid: {gid}")
 
     fields = "comments,\
               complaints, \
@@ -95,13 +79,15 @@ for uid, shortname in names.items():
 
     response = requests.get(api_url, params=group_params)
     data = json.loads(response.text)
+    response_json_file = f'utils_ok/group_{shortname}_stats_ok.json'
+    response_csv_file = f'utils_ok/group_{shortname}_stats_ok.csv'
 
     try:
         for metric, values in data.items():
             for value in values:
                 value["time"] = unix_to_date(value["time"] / 1000)
 
-        with open(f'utils_ok/group_{shortname}_stats_ok.json', 'w') as f:
+        with open(response_json_file, 'w') as f:
             json.dump(data, f, indent=3)
 
         df = pd.DataFrame()
@@ -111,12 +97,39 @@ for uid, shortname in names.items():
             metric_df.rename(columns={'value': metric}, inplace=True)
             df = pd.concat([df, metric_df], axis=1)
         df.reset_index(inplace=True)
-        df.to_csv(f'utils_ok/group_{shortname}_stats_ok.csv', index=False)
+        df.to_csv(response_csv_file, index=False)
 
     except Exception as e:
-        print(values, e)
+        print(f"#{shortname}, {data['error_msg']}, {e}")
 
-    print(f'group_{shortname}_stats_ok loaded successful')
+    # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
+    # inspector = sqlalchemy.inspect(engine)
+    # table_name = f'group_{shortname}_stats_ok'
+    #
+    # if not inspector.has_table(table_name):
+    #     df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
+    #
+    # df.to_sql(table_name, engine, if_exists='replace', index=False)
+    # print(f'{table_name} loaded in database successfully')
 
 
 print('done')
+
+
+# url = f"https://ok.ru/{shortname}"
+# method = "url.getInfo"
+# getInfo_sig = md5_get_info(method, url)
+#
+# params = {
+#     "application_key": application_key,
+#     "format": request_format,
+#     "method": method,
+#     "url": url,
+#     "sig": getInfo_sig,
+#     "access_token": access_token,
+# }
+#
+# response = requests.get(api_url, params=params)
+# data = json.loads(response.text)
+# gid = data['objectId']
+# print(f"gid: {gid}")
