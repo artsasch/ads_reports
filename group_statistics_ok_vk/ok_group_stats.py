@@ -55,11 +55,11 @@ for uid, shortname in names.items():
               video_plays, \
               votes"
 
-    start_time = "2023-04-01"
-    unix_start_time_ms = date_to_unix(start_time) * 1000
+    end_time = datetime.date.today()
+    unix_end_time_ms = date_to_unix(str(end_time)) * 1000
 
-    end_time = str(datetime.date.today())
-    unix_end_time_ms = date_to_unix(end_time) * 1000
+    start_time = str(datetime.date(end_time.year, end_time.month - 2, 1))
+    unix_start_time_ms = date_to_unix(start_time) * 1000
 
     getStatTrends_method = "group.getStatTrends"
     gid = uid
@@ -102,15 +102,15 @@ for uid, shortname in names.items():
     except Exception as e:
         print(f"#{shortname}, {data['error_msg']}, {e}")
 
-    # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
-    # inspector = sqlalchemy.inspect(engine)
-    # table_name = f'group_{shortname}_stats_ok'
-    #
-    # if not inspector.has_table(table_name):
-    #     df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
-    #
-    # df.to_sql(table_name, engine, if_exists='replace', index=False)
-    # print(f'{table_name} loaded in database successfully')
+    engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
+    inspector = sqlalchemy.inspect(engine)
+    table_name = f'group_{shortname}_stats_ok'
+
+    if not inspector.has_table(table_name):
+        df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
+
+    df.to_sql(table_name, engine, if_exists='replace', index=False)
+    print(f'{table_name} loaded in database successfully')
 
 
 print('done')

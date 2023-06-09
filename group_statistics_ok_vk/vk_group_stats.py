@@ -1,8 +1,8 @@
-from utils.utils import date_to_unix, unix_to_date, request
 import datetime as dt
 import pandas as pd
-import sqlalchemy
 import requests
+import sqlalchemy
+from utils.utils import date_to_unix, unix_to_date, request
 
 
 with open('../resources/access_token.txt', 'r') as file:
@@ -25,7 +25,7 @@ for item in response['response']['items']:
 
 
 current_date = dt.date.today()
-first_day_of_last_month = dt.date(current_date.year, current_date.month - 1, 1)
+first_day_of_last_month = dt.date(current_date.year, current_date.month - 2, 1)
 unix_timestamp_to = date_to_unix(str(current_date))
 unix_timestamp_from = date_to_unix(str(first_day_of_last_month))
 print(f"timestamp_to: {current_date}")
@@ -46,7 +46,6 @@ for group_name, group_id in groups.items():
     }
 
     group_name = f"group_{group_name}_stats_vk"
-
     response_json_file = f'assets/{group_name}.json'
     response_csv_file = f'assets/{group_name}.csv'
 
@@ -68,8 +67,8 @@ for group_name, group_id in groups.items():
     except KeyError as error:
         print(error, group_name, group_id)
         continue
-    except Exception as e:
-        print(f"error {e} in group {group_name}")
+    except:
+        print(f"error in group{group_name}")
         continue
 
     df.loc[:, ['period_from', 'period_to']] = df.loc[:, ['period_from', 'period_to']].apply(pd.to_datetime, unit='s')
@@ -80,16 +79,16 @@ for group_name, group_id in groups.items():
     df.fillna(0, inplace=True)
     df.to_csv(response_csv_file, index=False)
 
-    # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
-    # inspector = sqlalchemy.inspect(engine)
+    engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
+    inspector = sqlalchemy.inspect(engine)
     table_name = group_name
     print(table_name)
-    #
-    # if not inspector.has_table(table_name):
-    #     df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
-    #
-    # df.to_sql(table_name, engine, if_exists='replace', index=False)
-    # print(f'stats from vk group {group_name} loaded in database successfully')
+
+    if not inspector.has_table(table_name):
+        df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
+
+    df.to_sql(table_name, engine, if_exists='replace', index=False)
+    print(f'{group_name} loaded in database successfully')
 
 print("done")
 
