@@ -93,6 +93,6 @@ for group_name, group_id in groups.items():
 print("done")
 
 
-# https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats,ads&response_type=code&v=5.131
-# code = 500c5ab71de3cea21f
-# https://oauth.vk.com/access_token?client_id=51621899&client_secret=WBYfJpyRcOfrsuodGXAD&redirect_uri=https://oauth.vk.com/blank.html&code=500c5ab71de3cea21f
+# https://oauth.vk.com/authorize?client_id=51621899&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline,stats,ads,wall&response_type=code&v=5.131
+# code = "500c5ab71de3cea21f"
+# https://oauth.vk.com/access_token?client_id=51621899&client_secret=WBYfJpyRcOfrsuodGXAD&redirect_uri=https://oauth.vk.com/blank.html&code=906a45541003af96fd

@@ -1,9 +1,5 @@
-import datetime as dt
 import pandas as pd
 import requests
-import sqlalchemy
-import json
-from utils.utils import date_to_unix, unix_to_date, request
 
 
 with open('../resources/access_token.txt', 'r') as file:
