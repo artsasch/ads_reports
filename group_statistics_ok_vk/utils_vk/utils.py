@@ -17,14 +17,7 @@ def date_to_unix(date_timestamp):
 
 
 def request(url, params, response_file):
-    if os.path.isfile(response_file):
-        with open(response_file, 'r') as infile:
-            response = json.load(infile)
-            print(f"Loaded data from {response_file} file")
-            return response
-    else:
-        response = requests.get(url, params=params).json()
+    response = requests.get(url, params=params).json()
     with open(response_file, 'w') as outfile:
         json.dump(response, outfile)
-        print(f"Saved response to {response_file} file")
         return response

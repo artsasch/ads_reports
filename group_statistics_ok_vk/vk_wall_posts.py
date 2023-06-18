@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import sqlalchemy
 import json
-from utils.utils import date_to_unix, unix_to_date, request
+from utils_vk.utils import date_to_unix, unix_to_date, request
 
 
 with open('../resources/access_token.txt', 'r') as file:
@@ -33,10 +33,7 @@ groups = {69145727: 'greenmarketby',
           # 220826779: 'zoo.ostrov',  # No access
           161701893: 'rabota_belagroprombank',
           # 209182836: 'ostrov.zdorovya',  # No access
-          # 104556132: 'smmhero',
           # 209388752: 'tri_losiya',  # No access
-          # 212950373: 'club212950373',
-          # 211650211: 'club211650211',
           97749693: 'vokatv',
           170611172: 'romax_factory',
           137366127: 'nyxcosmeticskz',
@@ -98,7 +95,6 @@ for group_id, group_shortname in groups.items():
         merged_df.to_csv(f'assets_wall_posts_vk/{group_shortname}_wall_posts.csv', index=False)
     except Exception as e:
         print(f'error 4 {e} with group {group_shortname}')
-    break
 
     # try:
     #     engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
@@ -109,4 +105,5 @@ for group_id, group_shortname in groups.items():
     #     merged_df.to_sql(table_name, engine, if_exists='replace', index=False)
     # except Exception as e:
     #     print(e)
+
     print(group_shortname)

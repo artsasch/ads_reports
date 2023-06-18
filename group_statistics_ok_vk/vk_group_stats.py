@@ -2,7 +2,7 @@ import datetime as dt
 import pandas as pd
 import requests
 import sqlalchemy
-from utils.utils import date_to_unix, unix_to_date, request
+from utils_vk.utils import date_to_unix, unix_to_date, request
 
 
 with open('../resources/access_token.txt', 'r') as file:
@@ -79,15 +79,15 @@ for group_name, group_id in groups.items():
     df.fillna(0, inplace=True)
     df.to_csv(response_csv_file, index=False)
 
-    engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
-    inspector = sqlalchemy.inspect(engine)
-    table_name = group_name
-    print(table_name)
-
-    if not inspector.has_table(table_name):
-        df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
-
-    df.to_sql(table_name, engine, if_exists='replace', index=False)
+    # engine = sqlalchemy.create_engine("mariadb+mariadbconnector://vk:yaro1997dobrg*M@173.249.18.74:3306/ads_reports")
+    # inspector = sqlalchemy.inspect(engine)
+    # table_name = group_name
+    # print(table_name)
+    #
+    # if not inspector.has_table(table_name):
+    #     df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
+    #
+    # df.to_sql(table_name, engine, if_exists='replace', index=False)
     print(f'{group_name} loaded in database successfully')
 
 print("done")

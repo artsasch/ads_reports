@@ -79,8 +79,8 @@ for uid, shortname in names.items():
 
     response = requests.get(api_url, params=group_params)
     data = json.loads(response.text)
-    response_json_file = f'utils_ok/group_{shortname}_stats_ok.json'
-    response_csv_file = f'utils_ok/group_{shortname}_stats_ok.csv'
+    response_json_file = f'assets_ok/group_{shortname}_stats_ok.json'
+    response_csv_file = f'assets_ok/group_{shortname}_stats_ok.csv'
 
     try:
         for metric, values in data.items():
